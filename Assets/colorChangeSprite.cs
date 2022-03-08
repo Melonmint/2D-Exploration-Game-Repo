@@ -7,7 +7,6 @@ public class colorChangeSprite : MonoBehaviour
     public float color1;
     public float color2;
     public float color3;
-    public bool change = false;
     SpriteRenderer spriteRenderer;
     // Start is called before the first frame update
     private void Awake()
@@ -16,18 +15,24 @@ public class colorChangeSprite : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("HELLO");
         if (collision.gameObject.CompareTag("splatter"))
         {
             spriteRenderer.color = collision.gameObject.GetComponent<SpriteRenderer>().color;
         }
-        
-
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("wall"))
+        {
+            if (spriteRenderer.color == collision.gameObject.GetComponent<SpriteRenderer>().color)
+            {
+                Destroy(collision.gameObject);
+                //collision.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            }
+        }
+    }
+
     private void Update()
     {
-        spriteRenderer.color = new Color(color1, color2, color3, 1.0f);
     }
-
-    // Update is called once per frame
 }
