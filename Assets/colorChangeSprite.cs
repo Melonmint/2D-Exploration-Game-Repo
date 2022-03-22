@@ -17,8 +17,13 @@ public class colorChangeSprite : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("splatter"))
         {
-            spriteRenderer.color = collision.gameObject.GetComponent<SpriteRenderer>().color;
+            StartCoroutine(ColorChange(spriteRenderer.color, collision.gameObject.GetComponent<SpriteRenderer>().color));
+            //spriteRenderer.color = collision.gameObject.GetComponent<SpriteRenderer>().color;
         }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        StopAllCoroutines();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -32,7 +37,16 @@ public class colorChangeSprite : MonoBehaviour
         }
     }
 
-    private void Update()
+    IEnumerator ColorChange(Color c1, Color c2)
     {
+        spriteRenderer.color = c1;
+        float t = 0.0f;
+        while (t < 1.0f)
+        {
+            spriteRenderer.color = Color.Lerp(c1, c2, t);
+            t += Time.deltaTime * 0.5f;
+            yield return null;
+        }
+        spriteRenderer.color = c2;
     }
 }
