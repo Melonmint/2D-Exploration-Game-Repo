@@ -8,6 +8,12 @@ public class level2timer : MonoBehaviour
     public TMP_Text myText;
     public Transform mover;
     public Vector3 returnPosition;
+    public AudioSource audio;
+    public AudioClip clip;
+    private void Awake()
+    {
+        audio = GetComponent<AudioSource>();
+    }
     // Start is called before the first frame update
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -25,6 +31,7 @@ public class level2timer : MonoBehaviour
             yield return null;
         }
         mover.position = returnPosition;
+        audio.PlayOneShot(clip);
         myText.text = "Too Slow! Try again";
 
     }
